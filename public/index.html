@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Successful Students | UNIBEN</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✅</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF1F4;--surface:#FFFFFF;--ink:#1B2A41;--mute:#6B7A90;--line:#D5DCE5;--accent:#5B2A86;--on-accent:#FFFFFF;--empty:#E3E8EE;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121A26;--surface:#1A2535;--ink:#E8EDF4;--mute:#8FA0B8;--line:#2B3A50;--accent:#B995E8;--on-accent:#0E1624;--empty:#26344A}}
+:root[data-theme="dark"]{--bg:#121A26;--surface:#1A2535;--ink:#E8EDF4;--mute:#8FA0B8;--line:#2B3A50;--accent:#B995E8;--on-accent:#0E1624;--empty:#26344A}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.4}
+main{max-width:560px;margin:0 auto;padding:28px 18px 48px}
+h1{font-size:2rem;font-weight:800;margin:0 0 2px;letter-spacing:-.02em}
+.sub{color:var(--mute);margin:0 0 22px}
+form{display:flex;gap:8px;margin-bottom:22px}
+input{flex:1;min-width:0;font:inherit;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+input::placeholder{color:var(--mute)}
+button{font:inherit;cursor:pointer}
+.add{padding:12px 18px;border:0;border-radius:10px;background:var(--accent);color:var(--on-accent);font-weight:600}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.habit{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px}
+.name{font-weight:600;font-size:1.1rem;overflow-wrap:anywhere}
+.streak{font-weight:800;font-size:1.5rem;color:var(--accent);white-space:nowrap}
+.streak small{font-weight:400;font-size:.8rem;color:var(--mute);margin-left:3px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.d{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.75rem;color:var(--mute);background:none;border:0;padding:0}
+.dot{width:100%;max-width:46px;aspect-ratio:1;border-radius:50%;background:var(--empty);display:grid;place-items:center;color:var(--on-accent);font-weight:800;transition:background .15s,transform .15s}
+.d[aria-pressed="true"] .dot{background:var(--accent)}
+.d:active .dot{transform:scale(.92)}
+.d.today{color:var(--ink);font-weight:600}
+.del{background:none;border:0;color:var(--mute);margin-top:12px;padding:0;font-size:.85rem}
+.empty{text-align:center;color:var(--mute);padding:36px 0}
+select{font:inherit;padding:12px 8px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);max-width:42%}
+.del{margin-right:16px}
+.goal{margin-top:14px;font-size:.9rem;color:var(--mute)}
+.bar{height:6px;border-radius:3px;background:var(--empty);margin-top:6px;overflow:hidden}
+.fill{height:100%;background:var(--accent);transition:width .2s}
+.mname{margin:14px 0 6px;font-weight:600}
+.mo{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;max-width:340px}
+.wd{text-align:center;font-size:.75rem;color:var(--mute)}
+.mday{aspect-ratio:1;border:0;border-radius:50%;background:var(--empty);color:var(--ink);font-size:.8rem;padding:0}
+.mday[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);font-weight:800}
+.mday:disabled{opacity:.35;cursor:default}
+.chips,.qs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:.85rem}
+.coach{margin-top:26px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.coach h2{margin:0 0 4px;font-size:1.2rem}
+.nudge{margin:0 0 12px;color:var(--mute)}
+.log{max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.msg{padding:10px 12px;border-radius:12px;max-width:88%;overflow-wrap:anywhere;white-space:pre-wrap}
+.msg.me{align-self:flex-end;background:var(--accent);color:var(--on-accent)}
+.msg.ai{align-self:flex-start;background:var(--empty)}
+.qs{margin-bottom:10px}
+.coach form{margin:0}
+details.coach{margin-top:12px}
+summary{font-weight:600;font-size:1.1rem;cursor:pointer}
+.stack{display:flex;flex-direction:column;gap:8px}
+.stack input{flex:none}
+.stack select{max-width:none}
+.err{color:#B3261E;margin:0;line-height:1.4}
+.err:empty{display:none}
+.stack .chip{align-self:flex-start}
+.grow{display:flex;gap:6px;margin-bottom:8px;align-items:center}
+.grow input{flex:1;min-width:0}
+.grow select{max-width:none}
+.grow .del,.exrow .del{margin:0}
+.exrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--line)}
+.exn{font-weight:600;flex:1;min-width:90px}
+.exd{color:var(--mute);font-size:.9rem}
+.exl{color:var(--accent)}
+.exl.past{color:var(--mute)}
+[aria-invalid="true"]{border-color:#B3261E}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .err{color:#FF8A80}:root:not([data-theme="light"]) [aria-invalid="true"]{border-color:#FF8A80}}
+:root[data-theme="dark"] .err{color:#FF8A80}
+:root[data-theme="dark"] [aria-invalid="true"]{border-color:#FF8A80}
+.stack .add{align-self:flex-start}
+textarea{font:inherit;width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);resize:vertical}
+.out{margin-top:12px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5}
+.out:empty{display:none}
+@media (prefers-reduced-motion:reduce){.dot,.fill{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<h1>Successful Students</h1>
+<p class="sub" id="sub"></p>
+<form id="f"><input id="t" placeholder="New habit, like “Read 10 pages”" maxlength="60" aria-label="New habit"><select id="g" aria-label="Weekly goal"><option value="7">Every day</option><option value="5">5 days a week</option><option value="3">3 days a week</option><option value="1">Once a week</option></select><button class="add">Add habit</button></form>
+<div id="chips" class="chips"></div>
+<div id="list"></div>
+<details class="coach" id="d1"><summary>My course</summary>
+<p class="nudge">The coach uses this to tailor everything it gives you.</p>
+<div class="stack"><input id="fac" list="facs" placeholder="Faculty, like Engineering" maxlength="80" aria-label="Faculty"><datalist id="facs"></datalist><select id="lvl" aria-label="Level"><option value="">Level</option><option>100L</option><option>200L</option><option>300L</option><option>400L</option><option>500L</option><option>600L</option></select><input id="dep" list="deps" placeholder="Department or course, like Civil Engineering" maxlength="100" aria-label="Department or course"><datalist id="deps"></datalist><button type="button" class="add" id="savec">Save course</button><p id="cerr" class="err" role="alert"></p></div></details>
+<details class="coach" id="d2"><summary>Reading timetable</summary>
+<p class="nudge">Paste your class schedule and the coach will build a reading plan around it.</p>
+<div class="stack"><textarea id="sch" rows="5" placeholder="Example: Mon 8–10 MTH 101, Tue 12–2 PHY 101 lab…" maxlength="1500" aria-label="Class schedule"></textarea><button type="button" class="add" id="mktt">Build my reading timetable</button></div><div id="tt" class="out" aria-live="polite"></div></details>
+<details class="coach" id="d3"><summary>Homework helper</summary>
+<p class="nudge">Paste your notes and your question. The coach explains and points you to resources. It won’t just hand over answers.</p>
+<div class="stack"><textarea id="nt" rows="5" placeholder="Paste your class notes here" maxlength="4000" aria-label="Class notes"></textarea><input id="hq" placeholder="Your question or assignment" maxlength="400" aria-label="Question or assignment"><button type="button" class="add" id="hlp">Help me understand</button></div><div id="hout" class="out" aria-live="polite"></div></details>
+<details class="coach" id="d4"><summary>Course outline</summary>
+<p class="nudge">Paste a course outline. The coach breaks each topic down with notes and textbook suggestions.</p>
+<div class="stack"><input id="oc" list="cl" placeholder="Course, like MTH 101" maxlength="80" aria-label="Course"><datalist id="cl"></datalist><textarea id="ol" rows="6" placeholder="Paste the topics from your course outline" maxlength="3000" aria-label="Course outline"></textarea><button type="button" class="add" id="obk">Break it down</button></div><div id="oout" class="out" aria-live="polite"></div></details>
+<details class="coach" id="d5"><summary>Course review</summary>
+<p class="nudge">Pick a course from your timetable or type one. The coach shows what to master and how to review it.</p>
+<div class="stack"><input id="rc" list="cl" placeholder="Course, like PHY 101" maxlength="80" aria-label="Course to review"><button type="button" class="add" id="rvw">Review this course</button></div><div id="rout" class="out" aria-live="polite"></div></details>
+<details class="coach" id="d6"><summary>CGPA calculator</summary>
+<p class="nudge">Uses the common 5.0 scale: A 5, B 4, C 3, D 2, E 1, F 0. Check your faculty handbook if yours differs.</p>
+<div id="gr"></div>
+<div class="stack"><button type="button" class="chip" id="gadd">+ Add course</button><input id="pc" type="number" min="0" max="5" step="0.01" inputmode="decimal" placeholder="Previous CGPA (optional)" aria-label="Previous CGPA"><input id="pu" type="number" min="0" inputmode="numeric" placeholder="Previous total units (optional)" aria-label="Previous total units"><button type="button" class="add" id="gcalc">Calculate</button></div><div id="gres" class="out" aria-live="polite"></div></details>
+<details class="coach" id="d7"><summary>Exam countdown</summary>
+<div class="stack"><input id="ec" placeholder="Course, like MTH 101" maxlength="40" aria-label="Exam course"><input id="ed" type="date" aria-label="Exam date"><button type="button" class="add" id="eadd">Add exam</button><p id="eerr" class="err" role="alert"></p></div><div id="elist"></div></details>
+<section class="coach"><h2>Study coach</h2><p id="nudge" class="nudge"></p><div id="log" class="log" aria-live="polite"></div>
+<div class="qs"><button type="button" class="chip" data-q="How do I build a study habit that sticks?">How do I start?</button><button type="button" class="chip" data-q="I missed a few days. What should I do?">I missed days</button><button type="button" class="chip" data-q="Help me plan my study week.">Plan my week</button></div>
+<form id="cf"><input id="q" placeholder="Ask your coach anything" maxlength="300" aria-label="Ask your coach"><button class="add">Ask</button></form></section>
+</main>
+<script>
+var KEY="habit-tracker-v1",habits=[];
+function load(){try{var r=localStorage.getItem(KEY);habits=r?JSON.parse(r):[]}catch(e){habits=[]}if(!Array.isArray(habits))habits=[]}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(habits))}catch(e){}}
+function key(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function back(n){var d=new Date();d.setDate(d.getDate()-n);return d}
+function streak(h){var n=0,i=h.done[key(back(0))]?0:1;while(h.done[key(back(i))]){n++;i++}return n}
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+var PRESETS=["Attend all lectures","Read before class","Review lecture notes","Practice past questions","Finish assignments","Group study session","Sleep 7 to 8 hours","Drink water","Exercise"];
+function addHabit(v,goal){habits.push({name:v,done:{},goal:goal||7});save();render()}
+function renderChips(){var c=document.getElementById("chips");c.textContent="";var have=habits.map(function(h){return h.name});
+ PRESETS.filter(function(p){return have.indexOf(p)<0}).forEach(function(p){var b=el("button","chip","+ "+p);b.type="button";b.onclick=function(){addHabit(p,+document.getElementById("g").value)};c.appendChild(b)})}
+var PK="habit-profile-v1",prof={fac:"",dep:"",lvl:"",sch:"",tt:""};
+function loadP(){try{var r=localStorage.getItem(PK);if(r)prof=Object.assign(prof,JSON.parse(r))}catch(e){}}
+function saveP(){try{localStorage.setItem(PK,JSON.stringify(prof))}catch(e){}}
+var FAC={"Agriculture":["Agricultural Economics and Extension Services","Animal Science","Aquaculture and Fisheries Management","Crop Science","Food Science and Nutrition","Forestry","Forest Resources and Wildlife Management","Soil Science"],"Arts":["English and Literature","Fine and Applied Art","Foreign Languages","History and International Studies","Linguistics Studies","Mass Communication","Philosophy","Religious Studies","Theatre Arts"],"Basic Clinical Sciences":null,"Basic Medical Sciences":["Anatomy","Medical Biochemistry","Medical Laboratory Science","Nursing Sciences","Physiology","Physiotherapy","Radiography"],"Dentistry":null,"Education":["Adult and Non-Formal Education","Curriculum and Instructional Technology","Educational Management","Educational Foundations","Educational Evaluation and Counselling Psychology","Educational Psychology and Curriculum Studies","Health, Safety and Environmental Education","Human Kinetics and Sports Science","Vocational and Technical Education","Primary Education","Education and Biology","Education and Chemistry","Education and Economics","Education and English","Education and French","Education and Geography","Education and History","Education and Mathematics","Education and Physics","Education and Political Science","Education and Religious Studies","Education and Social Studies"],"Engineering":["Agricultural Engineering","Chemical Engineering","Civil Engineering","Computer Engineering","Electrical/Electronic Engineering","Industrial Engineering","Marine Engineering","Mechanical Engineering","Mechatronics Engineering","Metallurgical and Materials Engineering","Petroleum Engineering","Production Engineering","Structural Engineering"],"Environmental Sciences":["Architecture","Estate Management","Geomatics","Quantity Surveying","Environmental Management and Toxicology"],"Law":["Law"],"Life Sciences":["Animal and Environmental Biology","Biochemistry","Environmental Management and Toxicology","Microbiology","Optometry","Plant Biology and Biotechnology","Science Laboratory Technology"],"Management Sciences":["Accounting","Actuarial Science","Banking and Finance","Business Administration","Entrepreneurship","Finance","Human Resource Management","Insurance","Marketing"],"Medicine":["Medicine and Surgery","Anaesthesiology","Child Health","Haematology","Medicine","Mental Health","Public Health and Community Medicine","Surgery"],"Pharmacy":["Pharmacy","Pharmacognosy","Pharmaceutical Chemistry","Clinical Pharmacy and Pharmacy Practice","Pharmacology and Toxicology","Pharmaceutics and Pharmaceutical Technology","Pharmaceutical Mathematics","Pharmaceutical Microbiology and Biotechnology"],"Physical Sciences":["Chemistry","Computer Science","Geology","Mathematics","Physics","Statistics","Cyber Security","Data Science","Information and Communication Technology","Information Technology","Software Engineering"],"Social Sciences":["Economics","Geography and Disaster Risk Management","Library and Information Science","Peace Studies and Conflict Resolution","Political Science","Public Administration","Sociology and Anthropology","Social Work","International Relations","Intelligence and Security Studies"],"Veterinary Medicine":null,"Vocational and Technical Education":null};
+function norm(s){return String(s).toLowerCase().replace(/[&/]/g," and ").replace(/\b(department|dept)\.? of\b/g," ").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim()}
+function pick(list,v){var n=norm(v);for(var i=0;i<list.length;i++)if(norm(list[i])===n)return list[i];return null}
+function checkCourse(f,d){
+ if(!f)return{err:"Enter your faculty."};
+ var fac=pick(Object.keys(FAC),norm(f).replace(/^(faculty|school) of /,""));
+ if(!fac)return{err:"“"+f+"” isn’t a UNIBEN faculty. Pick one from the list, like Engineering or Law."};
+ if(!d)return{err:"Enter your department or course.",fac:fac};
+ var L=FAC[fac];
+ if(!L)return d.length<3?{err:"Enter your full department name.",fac:fac}:{fac:fac,dep:d};
+ var dep=pick(L,d);
+ if(!dep){var t=norm(d),m=L.filter(function(x){var n=norm(x);return n.indexOf(t)>=0||(n&&t.indexOf(n)>=0)});if(!m.length)m=L;return{err:"“"+d+"” isn’t a department in the Faculty of "+fac+". Try: "+m.slice(0,8).join(", ")+(m.length>8?", …":"")+".",fac:fac}}
+ return{fac:fac,dep:dep}}
+function showErr(m,f,d){var e=document.getElementById("cerr");e.textContent=m||"";document.getElementById("fac").setAttribute("aria-invalid",f?"true":"false");document.getElementById("dep").setAttribute("aria-invalid",d?"true":"false")}
+function applyCourse(){
+ var $=function(i){return document.getElementById(i)},r=checkCourse($("fac").value.trim(),$("dep").value.trim());
+ prof.lvl=$("lvl").value;
+ if(r.err){showErr(r.err,!r.fac,!!r.fac);var d=$("d1");d.open=true;d.scrollIntoView({block:"center"});return false}
+ prof.fac=r.fac;prof.dep=r.dep;$("fac").value=r.fac;$("dep").value=r.dep;showErr("");saveP();return true}
+function fillFacs(){var dl=document.getElementById("facs");Object.keys(FAC).forEach(function(x){var o=document.createElement("option");o.value=x;dl.appendChild(o)})}
+function fillDeps(){var r=checkCourse(document.getElementById("fac").value.trim(),"x"),dl=document.getElementById("deps");dl.textContent="";var L=r.fac&&FAC[r.fac];if(L)L.forEach(function(x){var o=document.createElement("option");o.value=x;dl.appendChild(o)})}
+function courseInfo(){return "The student attends the University of Benin (UNIBEN) in Benin City, Nigeria, which uses semesters, continuous assessment plus exams, and a 5.0 CGPA scale. The John Harris Library is the main library. "+(prof.dep||prof.fac||prof.lvl?"Course or department: "+(prof.dep||"not given")+". Faculty: "+(prof.fac||"not given")+". Level: "+(prof.lvl||"not given")+". ":"")}
+async function gen(sys,user,out,btn,done){
+ if(busy)return;busy=true;btn.disabled=true;out.textContent="Thinking…";
+ try{
+  var sample=await claude.use("sample");
+  if(!sample){out.textContent="The coach isn’t available in this view.";return}
+  var r=await sample(sys+"\n\n"+user,{cache:false,modelTier:"default",onText:function(o){out.textContent=o.text}});
+  out.textContent=r.text+(r.truncated?"\n\n(Shortened. Try fewer topics at a time to see the rest.)":"");if(done)done(r.text);
+ }catch(e){out.textContent=e&&e.code==="bad_code"?"That access code didn’t work. Try again.":e&&e.code==="limit"?"You’ve reached today’s limit. Try again tomorrow.":e&&e.code==="not_granted"?"Approve the request to let the coach answer.":"The coach couldn’t answer. Try again in a moment."}
+ finally{busy=false;btn.disabled=false}
+}
+function wireP(){
+ var $=function(i){return document.getElementById(i)};
+ $("fac").value=prof.fac;$("dep").value=prof.dep;$("lvl").value=prof.lvl;fillFacs();fillDeps();$("fac").oninput=fillDeps;$("sch").value=prof.sch;$("tt").textContent=prof.tt;
+ $("savec").onclick=function(){prof.fac=$("fac").value.trim();if(!applyCourse())return;$("savec").textContent="Saved";setTimeout(function(){$("savec").textContent="Save course"},1500)};
+ $("mktt").onclick=function(){
+  if(!applyCourse())return;var s=$("sch").value.trim();if(!s){$("tt").textContent="Paste your class schedule first.";return}
+  prof.fac=$("fac").value.trim();prof.dep=$("dep").value.trim();
+  gen("You are a study coach for students. Build a realistic weekly reading timetable. Use only free time around the classes given, include breaks, keep sessions between 25 and 50 minutes, give each of the student’s subjects fair time, and leave some rest. Format it as a day-by-day list with times and what to read or revise. Keep it under 250 words. If anything is unclear, state one assumption.","Student: "+context()+"\n\nClass schedule:\n"+s,$("tt"),$("mktt"),function(t){prof.sch=s;prof.tt=t;saveP()})};
+ $("hlp").onclick=function(){
+  if(!applyCourse())return;var n=$("nt").value.trim(),q=$("hq").value.trim();if(!q){$("hout").textContent="Type your question or assignment first.";return}
+  gen("You are a study coach helping a student understand schoolwork. Do not hand over final answers to assignments, tests or assessments. Instead explain the key ideas from their notes in simple language, give a hint or the first step, show how a similar example works, and suggest kinds of resources and search terms to look up, such as textbook chapters, lecture recordings and reputable educational sites. Do not invent specific links or citations. End with one question that checks their understanding. If the notes don’t cover the question, say so. Keep it under 250 words.","Student: "+context()+"\n\nNotes:\n"+(n||"(none)")+"\n\nQuestion:\n"+q,$("hout"),$("hlp"))};
+}
+var OSYS="You are a study coach for university students at UNIBEN, tailored to the student's level, often 100 level. The student pastes a course outline. For each subtopic, in order, give a short plain-language explanation of the idea (2 to 3 sentences), 2 key points to note, and one or two well-known textbooks that commonly cover it. Only name real textbooks you are confident exist, with the author, and never invent titles, editions or page numbers. If the outline itself lists recommended texts, use those first. You cannot know which books a particular lecturer uses, so end by telling the student to confirm the recommended texts with their lecturer or the department. Do not write assignment or exam answers. If the outline is long, cover as many topics as fit and say which remain. Keep each topic brief.";
+var RSYS="You are a study coach for university students at UNIBEN. Look closely at the course the student names and help them review it. Cover: what the course is about and why it matters for their program; the main topics usually covered and which to master first; a simple review plan for the semester; common mistakes students make; and three practice questions on key ideas with no answers, so the student attempts them. Tailor it to their level and department. If you are not sure what UNIBEN covers in this exact course, say so and describe the standard content instead. Keep it under 300 words.";
+var GP={A:5,B:4,C:3,D:2,E:1,F:0};
+function fillCourses(){var t=document.getElementById("sch").value,m=t.match(/\b[A-Za-z]{3}\s?\d{3}\b/g)||[],seen={},dl=document.getElementById("cl");dl.textContent="";m.forEach(function(c){c=c.toUpperCase().replace(/^([A-Z]{3})(\d)/,"$1 $2");if(seen[c])return;seen[c]=1;var o=document.createElement("option");o.value=c;dl.appendChild(o)})}
+function gRow(){var r=el("div","grow"),n=el("input");n.placeholder="Course (optional)";n.maxLength=30;n.setAttribute("aria-label","Course");
+ var u=el("select");[1,2,3,4,5,6].forEach(function(x){var o=el("option",null,x+(x===1?" unit":" units"));o.value=x;u.appendChild(o)});u.value="3";u.setAttribute("aria-label","Credit units");
+ var g=el("select");["A","B","C","D","E","F"].forEach(function(x){var o=el("option",null,x);o.value=x;g.appendChild(o)});g.setAttribute("aria-label","Grade");
+ var d=el("button","del","Remove");d.type="button";d.onclick=function(){r.remove()};
+ r.appendChild(n);r.appendChild(u);r.appendChild(g);r.appendChild(d);return r}
+function band(c){return c>=4.5?"First Class":c>=3.5?"Second Class Upper":c>=2.4?"Second Class Lower":c>=1.5?"Third Class":c>=1?"Pass":"Below pass"}
+function calcG(){
+ var tu=0,tp=0,out=document.getElementById("gres");
+ document.querySelectorAll("#gr .grow").forEach(function(r){var s=r.querySelectorAll("select"),u=+s[0].value;tu+=u;tp+=u*GP[s[1].value]});
+ if(!tu){out.textContent="Add at least one course.";return}
+ var pcv=document.getElementById("pc").value,puv=document.getElementById("pu").value,pc=parseFloat(pcv),pu=parseFloat(puv),g=tp/tu,t="This semester GPA: "+g.toFixed(2)+" ("+tu+" units)";
+ if(pc>=0&&pc<=5&&pu>0){var c=(pc*pu+tp)/(pu+tu);t+="\nNew CGPA: "+c.toFixed(2)+" ("+(pu+tu)+" units), typically "+band(c)}
+ else if(pcv||puv)t+="\nEnter a CGPA from 0 to 5 and total units above 0 to see your new CGPA.";
+ out.textContent=t}
+function parseD(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2])}
+function renderEx(){
+ var l=document.getElementById("elist"),t=new Date();l.textContent="";t=new Date(t.getFullYear(),t.getMonth(),t.getDate());
+ prof.ex=(prof.ex||[]).slice().sort(function(a,b){return a.d<b.d?-1:1});
+ if(!prof.ex.length){l.appendChild(el("p","nudge","No exams added yet."));return}
+ prof.ex.forEach(function(x,i){
+  var n=Math.round((parseD(x.d)-t)/864e5),row=el("div","exrow"),left=n<0?"Passed":n===0?"Today":n===1?"1 day left":n+" days left";
+  row.appendChild(el("span","exn",x.c));row.appendChild(el("span","exd",parseD(x.d).toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})));
+  row.appendChild(el("strong",n<0?"exl past":"exl",left));
+  var b=el("button","del","Remove");b.type="button";b.onclick=function(){prof.ex.splice(i,1);saveP();renderEx()};row.appendChild(b);l.appendChild(row)})}
+function wireX(){
+ var $=function(i){return document.getElementById(i)};
+ prof.ex=prof.ex||[];
+ $("sch").addEventListener("input",fillCourses);fillCourses();
+ $("obk").onclick=function(){if(!applyCourse())return;var c=$("oc").value.trim(),o=$("ol").value.trim();if(!c||!o){$("oout").textContent="Enter the course and paste its outline first.";return}gen(OSYS,"Student: "+context()+"\n\nCourse: "+c+"\n\nCourse outline:\n"+o,$("oout"),$("obk"))};
+ $("rvw").onclick=function(){if(!applyCourse())return;var c=$("rc").value.trim();if(!c){$("rout").textContent="Enter a course first.";return}gen(RSYS,"Student: "+context()+"\n\nCourse: "+c,$("rout"),$("rvw"))};
+ $("gadd").onclick=function(){$("gr").appendChild(gRow())};$("gcalc").onclick=calcG;
+ for(var i=0;i<4;i++)$("gr").appendChild(gRow());
+ $("eadd").onclick=function(){var c=$("ec").value.trim(),d=$("ed").value;if(!c||!d){$("eerr").textContent="Enter the course and pick the exam date.";return}$("eerr").textContent="";prof.ex.push({c:c,d:d});saveP();$("ec").value="";$("ed").value="";renderEx()};
+ renderEx();
+}
+var chat=[],busy=false;
+function renderNudge(){var t=key(back(0)),left=habits.filter(function(h){return !h.done[t]}).length,n=document.getElementById("nudge");
+ n.textContent=!habits.length?"Hi, I’m your study coach. Add a habit and I’ll help you stick with it.":left?left+(left===1?" habit":" habits")+" left today. You’ve got this.":"All done for today. Nice work."}
+function context(){return courseInfo()+habits.map(function(h){return h.name+" (streak "+streak(h)+", "+weekCount(h)+" of "+(h.goal||7)+" this week, "+(h.done[key(back(0))]?"done":"not done")+" today)"}).join("; ")||"none yet"}
+async function ask(q){
+ if(busy||!q)return;if(!applyCourse())return;busy=true;
+ var log=document.getElementById("log");
+ log.appendChild(el("div","msg me",q));var a=el("div","msg ai","Thinking…");log.appendChild(a);log.scrollTop=log.scrollHeight;
+ document.getElementById("q").value="";chat.push({role:"user",content:q});
+ try{
+  var sample=await claude.use("sample");
+  if(!sample){chat.pop();a.textContent="The coach isn’t available in this view.";busy=false;return}
+  var sys="You are a friendly study coach inside Successful Students, a habit and study app for University of Benin (UNIBEN) students in Nigeria. Reply in under 80 words, in plain, warm, practical language. Help them keep up their habits with tailored, realistic suggestions, and use their habits and course when helpful. For stress, health or safety worries, encourage talking to a trusted adult or school counselor. Student’s habits: "+context()+".";
+  var h=chat.slice(-5);if(h[0].role==="assistant")h=h.slice(1);
+  var last=h.length-1,msgs=h.map(function(m,i){return i===last?{role:"user",content:sys+"\n\nStudent: "+m.content}:m});
+  var r=await sample(msgs,{cache:false,modelTier:"quick",onText:function(o){a.textContent=o.text;log.scrollTop=log.scrollHeight}});
+  a.textContent=r.text;chat.push({role:"assistant",content:r.text});
+ }catch(e){chat.pop();a.textContent=e&&e.code==="bad_code"?"That access code didn’t work. Try again.":e&&e.code==="limit"?"You’ve reached today’s limit. Try again tomorrow.":e&&e.code==="not_granted"?"Approve the request to let the coach answer.":"The coach couldn’t answer. Try again in a moment."}
+ busy=false;
+}
+var open={};
+function weekCount(h){var dow=(new Date().getDay()+6)%7,n=0;for(var i=0;i<=dow;i++)if(h.done[key(back(i))])n++;return n}
+function addExtras(c,h,idx){
+  var goal=h.goal||7,w=weekCount(h),p=el("div","goal");
+  p.appendChild(el("span",null,"This week: "+w+" of "+goal+(w>=goal?", goal met":"")));
+  var bar=el("div","bar"),fill=el("div","fill");fill.style.width=Math.min(100,w/goal*100)+"%";bar.appendChild(fill);p.appendChild(bar);c.appendChild(p);
+  if(open[idx]){
+    var now=new Date(),y=now.getFullYear(),mo=now.getMonth(),off=(new Date(y,mo,1).getDay()+6)%7,len=new Date(y,mo+1,0).getDate(),cal=el("div","mo");
+    c.appendChild(el("div","mname",now.toLocaleDateString(undefined,{month:"long",year:"numeric"})));
+    ["M","T","W","T","F","S","S"].forEach(function(l){cal.appendChild(el("span","wd",l))});
+    for(var i=0;i<off;i++)cal.appendChild(el("span"));
+    for(var n=1;n<=len;n++){(function(n){
+      var dt=new Date(y,mo,n),k=key(dt),b=el("button","mday",String(n));b.type="button";
+      b.setAttribute("aria-pressed",h.done[k]?"true":"false");
+      if(dt>now)b.disabled=true;else b.onclick=function(){if(h.done[k])delete h.done[k];else h.done[k]=1;save();render()};
+      cal.appendChild(b)})(n)}
+    c.appendChild(cal)}
+  var m=el("button","del",open[idx]?"Hide month":"Show month");m.type="button";
+  m.onclick=function(){open[idx]=!open[idx];render()};c.appendChild(m);
+}
+function render(){
+  var list=document.getElementById("list");list.textContent="";renderChips();renderNudge();
+  var today=key(back(0)),doneToday=habits.filter(function(h){return h.done[today]}).length;
+  document.getElementById("sub").textContent=habits.length?doneToday+" of "+habits.length+" done today":"Habits, timetables and study help for UNIBEN students.";
+  if(!habits.length){list.appendChild(el("p","empty","No habits yet. Pick one above or type your own."));return}
+  habits.forEach(function(h,idx){
+    var c=el("section","habit"),top=el("div","top"),s=el("div","streak",String(streak(h)));
+    s.appendChild(el("small",null,"day streak"));
+    top.appendChild(el("div","name",h.name));top.appendChild(s);c.appendChild(top);
+    var g=el("div","days");
+    for(var i=6;i>=0;i--){(function(i){
+      var d=back(i),k=key(d),b=el("button","d"+(i===0?" today":""));
+      b.type="button";b.setAttribute("aria-pressed",h.done[k]?"true":"false");
+      b.setAttribute("aria-label",h.name+", "+d.toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"}));
+      var dot=el("span","dot",h.done[k]?"✓":"");b.appendChild(dot);
+      b.appendChild(el("span",null,i===0?"Today":d.toLocaleDateString(undefined,{weekday:"short"})));
+      b.onclick=function(){if(h.done[k])delete h.done[k];else h.done[k]=1;save();render()};
+      g.appendChild(b)})(i)}
+    c.appendChild(g);addExtras(c,h,idx);
+    var x=el("button","del","Delete habit");x.type="button";
+    x.onclick=function(){if(confirm("Delete “"+h.name+"”?")){habits.splice(idx,1);save();render()}};
+    c.appendChild(x);list.appendChild(c)});
+}
+document.getElementById("f").onsubmit=function(e){e.preventDefault();var i=document.getElementById("t"),v=i.value.trim();if(!v)return;habits.push({name:v,done:{},goal:+document.getElementById("g").value});i.value="";save();render()};
+document.getElementById("cf").onsubmit=function(e){e.preventDefault();ask(document.getElementById("q").value.trim())};
+document.querySelectorAll("[data-q]").forEach(function(b){b.onclick=function(){ask(b.getAttribute("data-q"))}});
+loadP();wireP();wireX();load();render();
+if(!window.claude){window.claude={use:async function(n){if(n!=="sample")return null;return async function(input,opts){
+ var err=function(c){var e=new Error(c);e.code=c;return e};
+ var today=new Date().toISOString().slice(0,10),u={d:today,n:0};
+ try{u=JSON.parse(localStorage.getItem("ss-usage"))||u}catch(e){}
+ if(u.d!==today)u={d:today,n:0};
+ if(u.n>=25)throw err("limit");
+ var code="";try{code=localStorage.getItem("ss-code")||""}catch(e){}
+ if(!code){code=(window.prompt("Enter your class access code")||"").trim();if(!code)throw err("bad_code")}
+ var m=typeof input==="string"?[{role:"user",content:input}]:input;
+ var r=await fetch("/.netlify/functions/coach",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code:code,messages:m})});
+ if(r.status===401){try{localStorage.removeItem("ss-code")}catch(e){}throw err("bad_code")}
+ if(r.status===429)throw err("limit");
+ if(!r.ok)throw new Error("coach "+r.status);
+ try{localStorage.setItem("ss-code",code);u.n++;localStorage.setItem("ss-usage",JSON.stringify(u))}catch(e){}
+ var d=await r.json();if(opts&&opts.onText)opts.onText({text:d.text});return{text:d.text,truncated:!!d.truncated}}}}}
+</script>
+</body>
+</html>
